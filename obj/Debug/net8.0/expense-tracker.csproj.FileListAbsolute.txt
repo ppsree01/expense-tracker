@@ -1,0 +1,14 @@
+/Users/sreelakshmi/2025/roadmap/csharp/expense-tracker/bin/Debug/net8.0/expense-tracker
+/Users/sreelakshmi/2025/roadmap/csharp/expense-tracker/bin/Debug/net8.0/expense-tracker.deps.json
+/Users/sreelakshmi/2025/roadmap/csharp/expense-tracker/bin/Debug/net8.0/expense-tracker.runtimeconfig.json
+/Users/sreelakshmi/2025/roadmap/csharp/expense-tracker/bin/Debug/net8.0/expense-tracker.dll
+/Users/sreelakshmi/2025/roadmap/csharp/expense-tracker/bin/Debug/net8.0/expense-tracker.pdb
+/Users/sreelakshmi/2025/roadmap/csharp/expense-tracker/obj/Debug/net8.0/expense-tracker.GeneratedMSBuildEditorConfig.editorconfig
+/Users/sreelakshmi/2025/roadmap/csharp/expense-tracker/obj/Debug/net8.0/expense-tracker.AssemblyInfoInputs.cache
+/Users/sreelakshmi/2025/roadmap/csharp/expense-tracker/obj/Debug/net8.0/expense-tracker.AssemblyInfo.cs
+/Users/sreelakshmi/2025/roadmap/csharp/expense-tracker/obj/Debug/net8.0/expense-tracker.csproj.CoreCompileInputs.cache
+/Users/sreelakshmi/2025/roadmap/csharp/expense-tracker/obj/Debug/net8.0/expense-tracker.dll
+/Users/sreelakshmi/2025/roadmap/csharp/expense-tracker/obj/Debug/net8.0/refint/expense-tracker.dll
+/Users/sreelakshmi/2025/roadmap/csharp/expense-tracker/obj/Debug/net8.0/expense-tracker.pdb
+/Users/sreelakshmi/2025/roadmap/csharp/expense-tracker/obj/Debug/net8.0/expense-tracker.genruntimeconfig.cache
+/Users/sreelakshmi/2025/roadmap/csharp/expense-tracker/obj/Debug/net8.0/ref/expense-tracker.dll
