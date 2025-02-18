@@ -1,3 +1,5 @@
+using System.Numerics;
+
 internal static class ExpenseManager {
     public static List<Expense> expenses = new List<Expense>();
 
@@ -37,9 +39,21 @@ internal static class ExpenseManager {
         }
     }
 
-    public static void GetSummary() {
+    public static void GetSummary(int month = -1, int year = -1) {
         LoadExpenses();
-        var total = expenses.Sum(x => x.amount);
+        double total = 0;
+        if (month > -1 && year > -1) {
+            total = expenses.Where(x => x.date.Month == month && x.date.Year == year).Sum(x => x.amount);
+        }
+        else if (month > -1) {
+            total = expenses.Where(x => x.date.Month == month).Sum(x => x.amount);
+        }
+        else if (year > -1) {
+            total = expenses.Where(x => x.date.Year == year).Sum(x => x.amount); 
+        }
+        else {
+            total = expenses.Sum(x => x.amount);
+        }
         Console.WriteLine($"Total Expenses: ${total}");
     }
 

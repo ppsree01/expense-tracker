@@ -1,5 +1,4 @@
-﻿// args = ["add", "--description", "Lunch", "--amount", "20"];
-if (args.Length > 0) {
+﻿if (args.Length > 0) {
     var command = args[0];
     int id = 0;
     string description = "";
@@ -19,7 +18,24 @@ if (args.Length > 0) {
             ExpenseManager.List();
             break;
         case "summary":
-            ExpenseManager.GetSummary();
+            if (args.Length == 3) {
+                if (args[1] == "--month") {
+                    int month = Convert.ToInt32(args[2]);
+                    ExpenseManager.GetSummary(month);
+                }
+                else if (args[1] == "--year") {
+                    int year = Convert.ToInt32(args[2]);
+                    ExpenseManager.GetSummary(-1, year);
+                }
+            }
+            else if (args.Length == 5) {
+                int month = Convert.ToInt32(args[2]);
+                int year = Convert.ToInt32(args[4]);
+                ExpenseManager.GetSummary(month, year);
+            }
+            else {
+                ExpenseManager.GetSummary();
+            }
             break;
         case "delete":
             if (args[1] == "--id") {
