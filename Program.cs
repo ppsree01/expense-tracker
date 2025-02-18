@@ -1,6 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
-
+﻿// args = ["add", "--description", "Lunch", "--amount", "20"];
 if (args.Length > 0) {
     var command = args[0];
     int id = 0;
