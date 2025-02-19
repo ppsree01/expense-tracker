@@ -1,46 +1,46 @@
-﻿if (args.Length > 0) {
+﻿// args = ["summary", "--year", "2025"];
+// args = "add --description blinkit --category grocery --amount 1620".Split(" ");
+if (args.Length > 0) {
+
     var command = args[0];
-    int id = 0;
-    string description = "";
-    double amount = 0;
+    int descriptionIndex = args.ToList().FindIndex(x => x == "--description");
+    int amountIndex = args.ToList().FindIndex(x => x == "--amount");
+    int idIndex = args.ToList().FindIndex(x => x == "--id");
+    int monthIndex = args.ToList().FindIndex(x => x == "--month");
+    int yearIndex = args.ToList().FindIndex(x => x == "--year");
+    int categoryIndex = args.ToList().FindIndex(x => x == "--category");   
+    string category = "";
 
     switch(command) {
         case "add":
-            if (args[1] == "--description") {
-                description = args[2];
+            if (amountIndex == -1) 
+            {
+                Message.Notify("--amount argument missing");
+                return;
             }
-            if (args[3] == "--amount") {
-                amount = Convert.ToDouble(args[4]);
+
+            if (descriptionIndex == -1) {
+                Message.Notify("--description argument missing");
+                return;
             }
-            ExpenseManager.AddExpense(description, amount);
+
+            if (categoryIndex > -1) category = args[categoryIndex + 1]; 
+            ExpenseManager.AddExpense(args[descriptionIndex + 1], Convert.ToInt32(args[amountIndex + 1]), category);
+
             break;
         case "list":
             ExpenseManager.List();
             break;
         case "summary":
-            if (args.Length == 3) {
-                if (args[1] == "--month") {
-                    int month = Convert.ToInt32(args[2]);
-                    ExpenseManager.GetSummary(month);
-                }
-                else if (args[1] == "--year") {
-                    int year = Convert.ToInt32(args[2]);
-                    ExpenseManager.GetSummary(-1, year);
-                }
-            }
-            else if (args.Length == 5) {
-                int month = Convert.ToInt32(args[2]);
-                int year = Convert.ToInt32(args[4]);
-                ExpenseManager.GetSummary(month, year);
-            }
-            else {
-                ExpenseManager.GetSummary();
-            }
+
+            int month = monthIndex == -1 ? monthIndex : Convert.ToInt32(args[monthIndex + 1]);
+            int year = yearIndex == -1 ? yearIndex : Convert.ToInt32(args[yearIndex + 1]);
+            category = categoryIndex == -1 ? "" : args[categoryIndex + 1];
+            
+            ExpenseManager.GetSummary(month, year, category);
             break;
         case "delete":
-            if (args[1] == "--id") {
-                id = Convert.ToInt32(args[2]);
-            }
+            int id = Convert.ToInt32(idIndex + 1);
             ExpenseManager.DeleteExpense(id);
             break;
     }

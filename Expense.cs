@@ -3,4 +3,5 @@ internal class Expense {
     public DateTime date { get; set; }
     public string description { get; set; } = "";
     public double amount {get; set; } = 0.0;
+    public string category { get; set; } = "general";
 }

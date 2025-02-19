@@ -10,7 +10,7 @@ internal static class FileManager {
     public static void WriteToFile(List<Expense> expenses, bool append = true) {
         using(StreamWriter sw = new StreamWriter(path, append)) {
             foreach(var expense in expenses) {
-                sw.WriteLine($"{expense.id},{expense.date},{expense.description},{expense.amount}");
+                sw.WriteLine($"{expense.id},{expense.date},{expense.category},{expense.description},{expense.amount}");
             }
         }
     }
@@ -23,8 +23,9 @@ internal static class FileManager {
             expenses.Add(new Expense {
                 id = Convert.ToInt32(input[0]),
                 date = Convert.ToDateTime(input[1]),
-                description = Convert.ToString(input[2]),
-                amount = Convert.ToDouble(input[3])
+                category = input[2],
+                description = Convert.ToString(input[3]),
+                amount = Convert.ToDouble(input[4]),
             });
         }
         return expenses;

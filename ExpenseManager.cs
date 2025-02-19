@@ -8,21 +8,34 @@ internal static class ExpenseManager {
         expenses = FileManager.ReadFile();
     }
 
-    public static void AddExpense(string description, double amount) {
+    public static void AddExpense(string description, double amount, string category = "") {
         int id = 0; 
         LoadExpenses();
         Console.WriteLine(expenses.Count);
         if (expenses.Count > 0) {
             id = expenses.OrderByDescending(x => x.id).First().id + 1;
         }
-        var expense = new Expense {
-            id = id,
-            date = DateTime.Now,
-            description = description,
-            amount = amount
-        };
-        FileManager.WriteToFile(new List<Expense> { expense });
-        Message.Notify($"Expense added successfully (ID: {id})");
+
+        if (category != "") {
+            var expenseWithCategory = new Expense {
+                id = id,
+                date = DateTime.Now,
+                description = description,
+                amount = amount,
+                category = category
+            };   
+            FileManager.WriteToFile(new List<Expense> { expenseWithCategory });
+        }
+        else {
+            var expense = new Expense {
+                id = id,
+                date = DateTime.Now,
+                description = description,
+                amount = amount
+            };
+            FileManager.WriteToFile(new List<Expense> { expense });
+            Message.Notify($"Expense added successfully (ID: {id})");
+        }
     }
 
     public static void DeleteExpense(int id) {
@@ -35,25 +48,44 @@ internal static class ExpenseManager {
     public static void List() {
         LoadExpenses();
         foreach(var item in expenses) {
-            Console.WriteLine($"{item.id}\t{item.date}\t{item.description}\t{item.amount}");
+            Console.WriteLine($"{item.id}\t{item.date}\t{item.category}\t{item.description}\t{item.amount}");
         }
     }
 
-    public static void GetSummary(int month = -1, int year = -1) {
+    public static void GetSummary(int month = -1, int year = -1, string category = "") {
         LoadExpenses();
         double total = 0;
-        if (month > -1 && year > -1) {
-            total = expenses.Where(x => x.date.Month == month && x.date.Year == year).Sum(x => x.amount);
+        var filtered = expenses;
+
+        if (category != "") {
+            filtered = filtered.Where(x => x.category == category).ToList();
         }
-        else if (month > -1) {
-            total = expenses.Where(x => x.date.Month == month).Sum(x => x.amount);
+
+        if (month != -1) {
+            filtered = filtered.Where(x => x.date.Month == month).ToList();
         }
-        else if (year > -1) {
-            total = expenses.Where(x => x.date.Year == year).Sum(x => x.amount); 
+
+        if (year != -1) {
+            filtered = filtered.Where(x => x.date.Year == year).ToList();
         }
-        else {
-            total = expenses.Sum(x => x.amount);
-        }
+
+        total = filtered.Sum(x => x.amount);
+
+        // if (month > -1 && year > -1) {
+
+        //     total = expenses.Where(x => (category != "" && x.category == category) ).Sum(x => x.amount);
+        //     total = expenses.Where(x => x.date.Month == month && x.date.Year == year && (category != "" && x.category == category)).Sum(x => x.amount);
+        // }
+        // else if (month > -1) {
+        //     total = expenses.Where(x => x.date.Month == month && (category != "" && x.category == category)).Sum(x => x.amount);
+        // }
+        // else if (year > -1) {
+        //     total = expenses.Where(x => (category != "" && x.category == category) ).Sum(x => x.amount);
+        //     total = expenses.Where(x => x.date.Year == year && (category != "" && x.category == category)).Sum(x => x.amount); 
+        // }
+        // else {
+        //     total = expenses.Where(x => category != "" && x.category == category).Sum(x => x.amount);
+        // }
         Console.WriteLine($"Total Expenses: ${total}");
     }
 
