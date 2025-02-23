@@ -1,7 +1,7 @@
-﻿// args = ["summary", "--year", "2025"];
-// args = "add --description blinkit --category grocery --amount 1620".Split(" ");
-if (args.Length > 0) {
-
+﻿if (args.Length == 0) {
+    Message.Introduce();
+}
+else {
     var command = args[0];
     int descriptionIndex = args.ToList().FindIndex(x => x == "--description");
     int amountIndex = args.ToList().FindIndex(x => x == "--amount");
@@ -40,8 +40,13 @@ if (args.Length > 0) {
             ExpenseManager.GetSummary(month, year, category);
             break;
         case "delete":
-            int id = Convert.ToInt32(idIndex + 1);
+            int id = Convert.ToInt32(args[idIndex + 1]);
             ExpenseManager.DeleteExpense(id);
+            break;
+
+        case "budget":
+            double amount = Convert.ToDouble(args[amountIndex + 1]);
+            ExpenseManager.SetBudget(amount);
             break;
     }
 }

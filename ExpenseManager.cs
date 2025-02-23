@@ -11,7 +11,9 @@ internal static class ExpenseManager {
     public static void AddExpense(string description, double amount, string category = "") {
         int id = 0; 
         LoadExpenses();
-        Console.WriteLine(expenses.Count);
+
+        if (!CanAddExpense(amount)) return;
+
         if (expenses.Count > 0) {
             id = expenses.OrderByDescending(x => x.id).First().id + 1;
         }
@@ -36,6 +38,30 @@ internal static class ExpenseManager {
             FileManager.WriteToFile(new List<Expense> { expense });
             Message.Notify($"Expense added successfully (ID: {id})");
         }
+    }
+
+    public static void SetBudget(double amount) {
+        FileManager.CreateBudgetFile();
+        FileManager.StoreBudget(amount);
+    }
+
+    private static bool CanAddExpense(double amount) {
+        int month = DateTime.Now.Month;
+        double currentTotal = expenses.Where(x => x.date.Month == month).Sum(x => x.amount);
+        double budget = FileManager.GetBudget();
+        if (budget == -1) return true;
+        double budget_80_percent = budget * 0.8;
+        double newTotal = currentTotal + amount;
+
+        if (newTotal >= budget_80_percent && newTotal <= budget) {
+            Console.WriteLine("Crossing 80% of the set budget for this month.. Buuut I'll allow it");
+            return true;
+        } else if (newTotal > budget) {
+            Console.WriteLine("Oh shoot! Budget limit crossed. This operation is not allowed. Sorry");
+            return false;
+        } 
+        return true;
+
     }
 
     public static void DeleteExpense(int id) {
@@ -70,22 +96,6 @@ internal static class ExpenseManager {
         }
 
         total = filtered.Sum(x => x.amount);
-
-        // if (month > -1 && year > -1) {
-
-        //     total = expenses.Where(x => (category != "" && x.category == category) ).Sum(x => x.amount);
-        //     total = expenses.Where(x => x.date.Month == month && x.date.Year == year && (category != "" && x.category == category)).Sum(x => x.amount);
-        // }
-        // else if (month > -1) {
-        //     total = expenses.Where(x => x.date.Month == month && (category != "" && x.category == category)).Sum(x => x.amount);
-        // }
-        // else if (year > -1) {
-        //     total = expenses.Where(x => (category != "" && x.category == category) ).Sum(x => x.amount);
-        //     total = expenses.Where(x => x.date.Year == year && (category != "" && x.category == category)).Sum(x => x.amount); 
-        // }
-        // else {
-        //     total = expenses.Where(x => category != "" && x.category == category).Sum(x => x.amount);
-        // }
         Console.WriteLine($"Total Expenses: ${total}");
     }
 
