@@ -1,5 +1,3 @@
-using System.Runtime.InteropServices;
-
 internal static class FileManager {
     public static string configPath = Directory.GetCurrentDirectory() + "/config.txt";
     public static string path = Directory.GetCurrentDirectory() + "/data.csv";
@@ -9,29 +7,6 @@ internal static class FileManager {
             File.Create(configPath).Close();
         }
     }
-
-    public static void SetBudget() {
-
-    }
-
-    // public static void UpdateBudget(double amount = -1) {
-    //     if (!File.Exists(configPath)) {
-    //         Console.WriteLine("No budget settings found. Would you like to set a monthly budget ?");
-    //         Console.Write("Enter Y / N");
-    //         var userInput = Console.ReadLine().ToString().ToLower();
-    //         if (userInput == "y") {
-    //             File.Create(configPath).Close();
-    //             Console.WriteLine("Enter budget for the current month. This is the maximum expense that is allowable for this month.");
-    //             int budget = 0;
-    //             if (!int.TryParse(Console.ReadLine().ToString(), out budget)) {
-    //                 Console.WriteLine("Entered amount is not a number. Process exiting");
-    //             }
-    //             FileManager.StoreBudget(budget);
-    //         }
-    //         FileManager.StoreBudget(-1);
-    //         Console.WriteLine("\n");
-    //     } 
-    // }
 
     public static void StoreBudget(double budget) {
         Console.WriteLine(budget);

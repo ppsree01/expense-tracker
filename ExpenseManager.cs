@@ -1,5 +1,3 @@
-using System.Numerics;
-
 internal static class ExpenseManager {
     public static List<Expense> expenses = new List<Expense>();
 
